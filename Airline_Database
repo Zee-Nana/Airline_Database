@@ -1,0 +1,249 @@
+-- phpMyAdmin SQL Dump
+-- version 4.9.0.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Feb 17, 2020 at 02:06 PM
+-- Server version: 10.4.6-MariaDB
+-- PHP Version: 7.1.32
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `airline`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `credit_card`
+--
+
+CREATE TABLE `credit_card` (
+  `id` int(11) NOT NULL,
+  `passenger_id` int(11) NOT NULL,
+  `card_number` varchar(20) NOT NULL,
+  `card_type` enum('Visa_card','Verve_card','Master_card') NOT NULL,
+  `exp_time` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `credit_card`
+--
+
+INSERT INTO `credit_card` (`id`, `passenger_id`, `card_number`, `card_type`, `exp_time`) VALUES
+(1, 1, '3333-2222-4444-5678-', 'Visa_card', '2023-02-12'),
+(2, 2, '4199-2845-4444-5687-', 'Verve_card', '2023-07-25'),
+(3, 4, '3333-6756-7865-5678-', 'Master_card', '2020-11-10'),
+(4, 3, '9756-2845-0985-5687-', 'Verve_card', '2021-02-19'),
+(5, 5, '2113-2070-4565-5678-', 'Master_card', '2022-08-06');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `flight`
+--
+
+CREATE TABLE `flight` (
+  `id` int(11) NOT NULL,
+  `Airline_id` varchar(11) NOT NULL,
+  `Airline_name` varchar(32) NOT NULL,
+  `From_Des.` varchar(30) NOT NULL,
+  `To_Des.` varchar(30) NOT NULL,
+  `Departure_time` datetime NOT NULL,
+  `Arrival_time` datetime NOT NULL,
+  `Duration_time` datetime NOT NULL,
+  `Total_seats` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `flight`
+--
+
+INSERT INTO `flight` (`id`, `Airline_id`, `Airline_name`, `From_Des.`, `To_Des.`, `Departure_time`, `Arrival_time`, `Duration_time`, `Total_seats`) VALUES
+(3, '234AZMANAIR', 'Azman Air Services', 'Abuja State', 'Kano State', '2020-02-16 05:00:00', '2020-02-16 06:30:00', '2020-02-16 01:30:00', 500),
+(4, '78654ARIK', 'Arik Air Services Limited', 'Abuja State', 'Lagos State', '2020-02-17 04:30:00', '2020-02-17 05:30:00', '2020-02-17 01:30:00', 544),
+(5, '7465AERO', 'Aero Airline Services', 'Enugu State', 'Abuja State', '2020-02-18 02:00:00', '2020-02-18 04:00:00', '2020-02-18 02:00:00', 500);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `flight_details`
+--
+
+CREATE TABLE `flight_details` (
+  `flight_id` int(11) NOT NULL,
+  `flight_dept_date` datetime NOT NULL,
+  `price` decimal(11,2) NOT NULL,
+  `available_seats` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `flight_details`
+--
+
+INSERT INTO `flight_details` (`flight_id`, `flight_dept_date`, `price`, `available_seats`) VALUES
+(3, '2020-02-06 05:00:00', '30000.00', '325'),
+(5, '2020-02-18 03:00:00', '45000.00', '245');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `passenger_details`
+--
+
+CREATE TABLE `passenger_details` (
+  `id` int(11) NOT NULL,
+  `F_name` varchar(30) NOT NULL,
+  `L_name` varchar(30) NOT NULL,
+  `Gender` enum('Male','Female','Others','') NOT NULL,
+  `D.O.B` date NOT NULL,
+  `Address` varchar(60) NOT NULL,
+  `Tel_no` varchar(11) NOT NULL,
+  `Email` varchar(60) NOT NULL,
+  `Password` varchar(8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `passenger_details`
+--
+
+INSERT INTO `passenger_details` (`id`, `F_name`, `L_name`, `Gender`, `D.O.B`, `Address`, `Tel_no`, `Email`, `Password`) VALUES
+(1, 'zainab', 'Abdulraheem', 'Female', '1996-11-17', 'Gwarinpa,Megabond Estate,Abuja State', '8143832380', 'zainababdulraheem@gmail.com', '28222'),
+(2, 'Grace', 'Itiung', 'Female', '1995-02-10', 'Kubwa Express, Abuja State', '09019374993', 'graceitiung@gmail.com', 'graceelu'),
+(3, 'Ridwan', 'Ibrahim', 'Male', '1993-08-22', 'Federal Housing,Lugbe Abuja State', '08033473850', 'rid1@email.com', 'reed_1'),
+(4, 'Xavier', 'Blaize', 'Male', '1990-02-14', 'France Road,Kano State', '07064331876', 'xblaize@gmail.com', 'xaveeirb'),
+(5, 'Emeka', 'Ike', 'Male', '1976-11-22', 'Warri Street,Akwa ibom State', '08054253467', 'emakaike@gmail.com', '346725');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ticket`
+--
+
+CREATE TABLE `ticket` (
+  `id` int(11) NOT NULL,
+  `passenger_id` int(11) NOT NULL,
+  `flight_id` int(11) NOT NULL,
+  `flight_depart_date` datetime NOT NULL,
+  `Flight_Class` enum('First_Class','Business','Economic') NOT NULL,
+  `seat_no` varchar(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `ticket`
+--
+
+INSERT INTO `ticket` (`id`, `passenger_id`, `flight_id`, `flight_depart_date`, `Flight_Class`, `seat_no`) VALUES
+(1, 1, 3, '2020-02-06 05:00:00', 'Business', '23A'),
+(2, 3, 5, '2020-02-18 03:00:00', 'First_Class', '12A');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `credit_card`
+--
+ALTER TABLE `credit_card`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `card_number` (`card_number`),
+  ADD KEY `passenger_id` (`passenger_id`);
+
+--
+-- Indexes for table `flight`
+--
+ALTER TABLE `flight`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `flight_details`
+--
+ALTER TABLE `flight_details`
+  ADD PRIMARY KEY (`flight_dept_date`),
+  ADD UNIQUE KEY `available_seats` (`available_seats`),
+  ADD KEY `flight_id` (`flight_id`);
+
+--
+-- Indexes for table `passenger_details`
+--
+ALTER TABLE `passenger_details`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Email` (`Email`),
+  ADD UNIQUE KEY `Tel_no` (`Tel_no`);
+
+--
+-- Indexes for table `ticket`
+--
+ALTER TABLE `ticket`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `seat_no` (`seat_no`),
+  ADD KEY `profile_id` (`passenger_id`),
+  ADD KEY `flight_id` (`flight_id`),
+  ADD KEY `flight_depart_date` (`flight_depart_date`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `credit_card`
+--
+ALTER TABLE `credit_card`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `flight`
+--
+ALTER TABLE `flight`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `passenger_details`
+--
+ALTER TABLE `passenger_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `ticket`
+--
+ALTER TABLE `ticket`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `credit_card`
+--
+ALTER TABLE `credit_card`
+  ADD CONSTRAINT `credit_card_ibfk_1` FOREIGN KEY (`passenger_id`) REFERENCES `passenger_details` (`id`);
+
+--
+-- Constraints for table `flight_details`
+--
+ALTER TABLE `flight_details`
+  ADD CONSTRAINT `flight_details_ibfk_1` FOREIGN KEY (`flight_id`) REFERENCES `flight` (`id`);
+
+--
+-- Constraints for table `ticket`
+--
+ALTER TABLE `ticket`
+  ADD CONSTRAINT `ticket_ibfk_1` FOREIGN KEY (`passenger_id`) REFERENCES `passenger_details` (`id`),
+  ADD CONSTRAINT `ticket_ibfk_2` FOREIGN KEY (`flight_id`) REFERENCES `flight` (`id`),
+  ADD CONSTRAINT `ticket_ibfk_3` FOREIGN KEY (`flight_depart_date`) REFERENCES `flight_details` (`flight_dept_date`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
